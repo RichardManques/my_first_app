@@ -4,6 +4,7 @@ import 'package:my_first_app/pages/profile_page.dart';
 import 'package:my_first_app/pages/home_page.dart';
 
 class FirstPage extends StatefulWidget{
+
   FirstPage({super.key});
 
   @override
@@ -42,17 +43,17 @@ class _FirstPageState extends State<FirstPage> {
         // Home
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           // Profile
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: 'Buscar',
           ),
           // Settings
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Settings',
+            label: 'Configuración',
           ),
         ],
       ),
