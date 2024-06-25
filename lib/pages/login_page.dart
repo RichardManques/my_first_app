@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_app/pages/first_page.dart';
 import 'package:my_first_app/services/auth_service.dart';
-import 'package:my_first_app/pages/home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -38,45 +37,44 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Inicia sesión',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: emailController,
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: emailController,
                 decoration: InputDecoration(
-                labelText: 'Correo electrónico',
-                contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'Correo electrónico',
                 ),
-            ),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(labelText: 'Contraseña'),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: login,
-              child: Text('Iniciar sesión'),
-            ),
-            if (errorMessage.isNotEmpty) ...[
-              SizedBox(height: 20),
+              ),
+              SizedBox(height: 20.0),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'Contraseña',
+                ),
+              ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: login,
+                child: Text('Iniciar sesión'),
+              ),
+              SizedBox(height: 10.0),
               Text(
                 errorMessage,
                 style: TextStyle(color: Colors.red),
               ),
             ],
-          ],
+          ),
         ),
       ),
     );

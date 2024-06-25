@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_app/services/auth_service.dart';
+import 'package:my_first_app/pages/create_document.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -42,15 +43,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              await authService.logout();
-              Navigator.pushReplacementNamed(context, '/login');
-            },
-          ),
-        ],
       ),
       body: errorMessage.isNotEmpty
           ? Center(child: Text(errorMessage))
@@ -66,6 +58,17 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => CreateDocumentPage()),
+    );
+          // Acción al presionar el botón, por ejemplo, mostrar un formulario para agregar un documento
+        },
+        child: Icon(
+            Icons.add), // Icono del botón, en este caso, un ícono de agregar
+        backgroundColor: const Color.fromARGB(255, 107, 33, 243), // Color de fondo del botón
+      ),
     );
   }
 }
