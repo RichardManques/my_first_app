@@ -5,10 +5,17 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil'),
+        title: Center(
+          child: Text(
+            'Buscar',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       body: Center(
-        child: Text('Pagina de perfil'),
+        child: Text('Pagina para buscar un documento'),
       ),
     );
   }

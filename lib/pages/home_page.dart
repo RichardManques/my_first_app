@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/services/auth_service.dart';
+import 'package:my_first_app/models/document.dart';
+import 'package:my_first_app/services/document_service.dart';
 import 'package:my_first_app/pages/create_document.dart';
+import 'package:my_first_app/pages/document_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,66 +10,77 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final AuthService authService = AuthService();
-  List<dynamic> documents = [];
-  String errorMessage = '';
+  final DocumentService documentService = DocumentService();
+  late Future<List<Document>> futureDocuments;
 
   @override
   void initState() {
     super.initState();
-    loadDocuments();
-  }
-
-  Future<void> loadDocuments() async {
-    try {
-      final List<dynamic> docs = await authService.getDocuments();
-      setState(() {
-        documents = docs;
-      });
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Error al cargar los documentos';
-      });
-    }
+    futureDocuments = documentService.getDocuments();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Documentos',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        title: Text('Documentos'),
       ),
-      body: errorMessage.isNotEmpty
-          ? Center(child: Text(errorMessage))
-          : documents.isEmpty
-              ? Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  itemCount: documents.length,
-                  itemBuilder: (context, index) {
-                    final document = documents[index];
-                    return ListTile(
-                      title: Text(document['nameProyect'] ?? 'No Title'),
-                      subtitle: Text(document['supplier'] ?? 'No Description'),
+      body: FutureBuilder<List<Document>>(
+        future: futureDocuments,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No hay documentos disponibles'));
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final document = snapshot.data![index];
+                return ListTile(
+                  title: Text(document.nameProyect),
+                  subtitle: Text(document.supplier),
+                  onTap: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DocumentDetailPage(document: document),
+                      ),
                     );
+                    if (result == true) {
+                      // Document was deleted
+                      setState(() {
+                        futureDocuments = documentService.getDocuments();
+                      });
+                    } else if (result == false) {
+                      // Document was updated
+                      setState(() {
+                        futureDocuments = documentService.getDocuments();
+                      });
+                    }
                   },
-                ),
+                );
+              },
+            );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => CreateDocumentPage()),
-    );
-          // Acción al presionar el botón, por ejemplo, mostrar un formulario para agregar un documento
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateDocumentPage()),
+          ).then((value) {
+            if (value == true) {
+              setState(() {
+                futureDocuments = documentService.getDocuments();
+              });
+            }
+          });
         },
-        child: Icon(
-            Icons.add), // Icono del botón, en este caso, un ícono de agregar
-        backgroundColor: const Color.fromARGB(255, 107, 33, 243), // Color de fondo del botón
+        child: Icon(Icons.add),
       ),
     );
   }

@@ -47,7 +47,7 @@ class _FirstPageState extends State<FirstPage> {
           ),
           // Profile
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.search),
             label: 'Buscar',
           ),
           // Settings
