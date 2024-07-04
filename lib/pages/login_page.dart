@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_app/pages/first_page.dart';
+import 'package:my_first_app/pages/registration_page.dart';
 import 'package:my_first_app/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> login() async {
     try {
-      print('Email: ${emailController.text}, Password: ${passwordController.text}');
+      print(
+          'Email: ${emailController.text}, Password: ${passwordController.text}');
       final String token = await authService.login(
         emailController.text,
         passwordController.text,
@@ -67,6 +69,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ElevatedButton(
                 onPressed: login,
                 child: Text('Iniciar sesión'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegistrationScreen()),
+                  );
+                },
+                child: Text('Registrarse'),
               ),
               SizedBox(height: 10.0),
               Text(

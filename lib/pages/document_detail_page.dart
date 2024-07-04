@@ -59,7 +59,11 @@ class _DocumentDetailPageState extends State<DocumentDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalle del Documento'),
+        title: Text(
+          'Detalle del Documento',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),

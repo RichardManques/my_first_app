@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_app/pages/settings_page.dart';
-import 'package:my_first_app/pages/profile_page.dart';
 import 'package:my_first_app/pages/home_page.dart';
 
 class FirstPage extends StatefulWidget{
@@ -25,8 +24,6 @@ class _FirstPageState extends State<FirstPage> {
   final List _pages = [
     // Home
     HomePage(),
-    // Profile
-    ProfilePage(),
     // Settings
     SettingsPage(),
   ];
@@ -44,11 +41,6 @@ class _FirstPageState extends State<FirstPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Inicio',
-          ),
-          // Profile
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Buscar',
           ),
           // Settings
           BottomNavigationBarItem(
